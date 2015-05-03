@@ -8,7 +8,7 @@
     toastrConfig.$inject = ['toastr'];
     /* @ngInject */
     function toastrConfig(toastr) {
-        toastr.options.timeOut = 4000;
+        toastr.options.timeOut = 1400;
         toastr.options.positionClass = 'toast-bottom-right';
     }
 

@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/angularjs/angular.d.ts"/>
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -24,42 +24,49 @@
 
         function activate() {
             var promises = [getMessageCount(), getPeople()];
-            return $q.all(promises).then(function() {
+            return $q.all(promises).then(function () {
                 logger.info('Activated Dashboard View');
-                logger.info('selbstgemachtes hier...');
+                //                logger.info('selbstgemachtes hier...');
 
-                vm.timeout = $timeout(function() {
-                    vm.news.description = 'ts:' + new Date();
-                    logger.info('timeout! : ' + vm.news.description);
-                    //                    logger.info(JSON.stringify($state));
-                    //                    logger.info(JSON.stringify($rootScope));
-                    logger.info($rootScope.intervalMessageCount.count);
-                    logger.info($state.intervalPeople.count);
-                }, 5000);
+                if (null == $state.timeout) {
+                    $state.timeout = $timeout(function () {
+                        vm.news.description = 'ts:' + new Date();
+                        logger.info('timeout! : ' + vm.news.description);
+                        //                    logger.info(JSON.stringify($state));
+                        //                    logger.info(JSON.stringify($rootScope));
+                        //                        logger.info($rootScope.intervalMessageCount.count);
+                        //                        logger.info($state.timeout.count);
+                    }, 1500);
+                    logger.info('new timeout arrangement');
+                }
 
-                $rootScope.intervalMessageCount = $interval(function() {
+
+                $rootScope.intervalMessageCount = $interval(function () {
                     //                    logger.info('interval!');
                     vm.messageCount++;
                 }, 150);
 
-                $state.intervalPeople = $interval(function() {
-                    $q.when(getPeople()).then(function() {
-                        logger.info('got people.');
-                    });
-                }, 12500);
+                if (null == $state.intervalPeople) {
+                    logger.info('new interval arrangement');
+                    $state.intervalPeople = $interval(function () {
+                        $q.when(getPeople()).then(function () {
+                            logger.info('got people.');
+                        });
+                    }, 12500);
+                }
             });
 
         }
 
         function getMessageCount() {
-            return dataservice.getMessageCount().then(function(data) {
+            return dataservice.getMessageCount().then(function (data) {
                 vm.messageCount = data;
                 return vm.messageCount;
             });
         }
 
         function getPeople() {
-            return dataservice.getPeople().then(function(data) {
+            return dataservice.getPeople().then(function (data) {
                 vm.people = data;
                 return vm.people;
             });

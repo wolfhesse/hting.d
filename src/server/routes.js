@@ -12,8 +12,7 @@ module.exports = router;
 
 function getPeople(req, res, next) {
     res.status(200).send(data.peopleFn());
-    
-//    res.status(200).send(data.people);
+    //    res.status(200).send(data.people);
 }
 
 function getPerson(req, res, next) {
@@ -24,7 +23,8 @@ function getPerson(req, res, next) {
 
     if (person) {
         res.status(200).send(person);
-    } else {
+    }
+    else {
         four0four.send404(req, res, 'person ' + id + ' not found');
     }
 }

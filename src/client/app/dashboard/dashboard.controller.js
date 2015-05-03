@@ -40,7 +40,6 @@
                     logger.info('new timeout arrangement');
                 }
 
-
                 $rootScope.intervalMessageCount = $interval(function () {
                     //                    logger.info('interval!');
                     vm.messageCount++;

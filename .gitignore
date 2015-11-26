@@ -1,6 +1,9 @@
 # i don't want idea settings under version control.. each system separate. keep your projects fit..
 .idea
 
+# von irgendwem
+.tmp
+
 # Logs
 logs
 *.log

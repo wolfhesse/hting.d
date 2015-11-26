@@ -64,7 +64,7 @@ function getPeople() {
             age: 48,
             location: 'Austria',
             updatedAt: new Date()
-        } ,{
+        }, {
             id: 10,
             firstName: 'Roger',
             lastName: 'Andel',

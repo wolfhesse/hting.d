@@ -64,6 +64,15 @@ function getPeople() {
             age: 48,
             location: 'Austria',
             updatedAt: new Date()
+        } ,{
+            id: 10,
+            firstName: 'Roger',
+            lastName: 'Andel',
+            relCompanyShort:  'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 48,
+            location: 'Austria',
+            updatedAt: new Date()
         }
     ];
 }

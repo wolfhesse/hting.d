@@ -36,22 +36,23 @@
                         //                    logger.info(JSON.stringify($rootScope));
                         //                        logger.info($rootScope.intervalMessageCount.count);
                         //                        logger.info($state.timeout.count);
-                    }, 1500);
+                    }, 2500);
                     logger.info('new timeout arrangement');
                 }
 
                 $rootScope.intervalMessageCount = $interval(function () {
                     //                    logger.info('interval!');
                     vm.messageCount++;
-                }, 150);
+                }, 350);
 
                 if (null == $state.intervalPeople) {
                     logger.info('new interval arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
                             logger.info('got people.');
+			    vm.news.description = 'ts:' + new Date();
                         });
-                    }, 12500);
+                    }, 2500);
                 }
             });
 

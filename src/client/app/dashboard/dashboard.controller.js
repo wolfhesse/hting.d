@@ -20,14 +20,17 @@
         vm.messageCount = 0;
         vm.people = [];
         vm.title = 'Dashboard (r)';
+        vm.bears = [];
 
         activate();
 
         function activate() {
-            var promises = [getMessageCount(), getPeople()];
+
+            var promises = [getMessageCount(), getPeople(), getBearsCount()];
             return $q.all(promises).then(function () {
                 logger.info('Activated Dashboard View');
                 //                logger.info('selbstgemachtes hier...');
+                logger.info("bears count is set to " + vm.bears.length);
 
                 if (null == $state.timeout) {
                     $state.timeout = $timeout(function () {
@@ -42,11 +45,17 @@
                     logger.info('new timeout arrangement');
                 }
 
-                $rootScope.intervalMessageCount = $interval(function () {
-                    //                    logger.info('interval!');
-                    vm.messageCount++;
-                    vm.news.date = Date();
-                }, 150);
+                if (null == $rootScope.intervalMessageCount) {
+                    $rootScope.intervalMessageCount = $interval(function () {
+                        //                    logger.info('interval!');
+                        var msg_saved = vm.busyMessage;
+                        vm.busyMessage = "busy...";
+                        vm.messageCount++;
+                        vm.news.date = Date();
+
+                        vm.busyMessage = msg_saved;
+                    }, 450);
+                }
 
                 if (null == $state.intervalPeople) {
                     logger.info('new interval arrangement');
@@ -58,6 +67,11 @@
                 }
             });
 
+        }
+
+        function getBearsCount() {
+            vm.bears = [{ 'bear': { 'name': 'evo' } }];
+            return vm.bears.length;
         }
 
         function getMessageCount() {

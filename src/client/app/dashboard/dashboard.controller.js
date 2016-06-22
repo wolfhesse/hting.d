@@ -9,6 +9,7 @@
     DashboardController.$inject = ['$q', '$interval', '$rootScope', '$state',
         '$timeout', 'dataservice', 'logger'
     ];
+    
     /* @ngInject */
     function DashboardController($q, $interval, $rootScope, $state, $timeout, dataservice, logger) {
         var vm = this;
@@ -63,7 +64,7 @@
                     logger.info('new interval bears arrangement');
                     $state.intervalBears = $interval(function () {
                         $q.when(getBearsCount()).then(function () {
-                            logger.info('got bears @ ' + Date());
+                            logger.info('got bears: ' + vm.bearsLoaded);
                         });
                     }, 6500);
                 }
@@ -72,7 +73,7 @@
                     logger.info('new interval people arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
-                            logger.info('got people @ ' + Date());
+                            logger.info('got people: ' + vm.people.length);
                         });
                     }, 8500);
                 }
@@ -82,7 +83,7 @@
 
         function getBearsCount() {
             vm.bears = dataservice.getBears().then(function (data) {
-                logger.info("bears api should have been touched..");
+                logger.log("bears api should have been touched..");
                 vm.bears = [];
                 var limitBears = Math.min(15, data.length);
                 for (var bx = 0; bx < limitBears; bx++) {

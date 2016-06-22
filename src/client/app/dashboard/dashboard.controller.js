@@ -89,7 +89,7 @@
                 for (var bx = 0; bx < limitBears; bx++) {
                     vm.bears[bx] = data[bx];
                 }
-                // vm.bears = data;
+                // old version: vm.bears = data;
                 vm.bearsLoaded = data.length;
                 vm.bearStatus = "loaded " + vm.bearsLoaded + " bears @ " + vm.news.date;
                 return vm.bears.length;

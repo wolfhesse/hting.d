@@ -60,11 +60,11 @@
 
                 if (null == $state.intervalBears) {
                     logger.info('new interval bears arrangement');
-                    $state.intervalPeople = $interval(function () {
+                    $state.intervalBears = $interval(function () {
                         $q.when(getBearsCount()).then(function () {
                             logger.info('got bears @ ' + Date());
                         });
-                    }, 4500);
+                    }, 6500);
                 }
 
                 if (null == $state.intervalPeople) {
@@ -73,7 +73,7 @@
                         $q.when(getPeople()).then(function () {
                             logger.info('got people @ ' + Date());
                         });
-                    }, 12500);
+                    }, 8500);
                 }
             });
 

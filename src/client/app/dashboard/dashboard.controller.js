@@ -22,6 +22,7 @@
         vm.title = 'Dashboard (r)';
         vm.bears = [];
         vm.bearsLoaded = 0;
+        vm.bearStatus = "initializing...";
 
         activate();
 
@@ -88,7 +89,8 @@
                     vm.bears[bx] = data[bx];
                 }
                 // vm.bears = data;
-                vm.bearsLoaded=data.length;
+                vm.bearsLoaded = data.length;
+                vm.bearStatus = "loaded " + vm.bearsLoaded + " bears @ " + vm.news.date;
                 return vm.bears.length;
             });
         }

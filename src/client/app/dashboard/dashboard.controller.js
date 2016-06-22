@@ -14,7 +14,8 @@
         var vm = this;
         vm.news = {
             title: 'helloWorld',
-            description: 'Hot Towel Angular is a SPA template for Angular developers.'
+            description: 'Hot Towel Angular is a SPA template for Angular developers.',
+            date: Date()
         };
         vm.messageCount = 0;
         vm.people = [];
@@ -31,6 +32,7 @@
                 if (null == $state.timeout) {
                     $state.timeout = $timeout(function () {
                         vm.news.description = 'ts:' + new Date();
+                        vm.news.date = Date();
                         logger.info('timeout! : ' + vm.news.description);
                         //                    logger.info(JSON.stringify($state));
                         //                    logger.info(JSON.stringify($rootScope));
@@ -43,14 +45,14 @@
                 $rootScope.intervalMessageCount = $interval(function () {
                     //                    logger.info('interval!');
                     vm.messageCount++;
-                }, 350);
-
+                    vm.news.date = Date();
+                }, 150);
                 if (null == $state.intervalPeople) {
                     logger.info('new interval arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
-                            logger.info('got people.');
 			    vm.news.description = 'ts:' + new Date();
+                            logger.info('got people @ ' + Date());
                         });
                     }, 2500);
                 }

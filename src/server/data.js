@@ -11,7 +11,8 @@ function getPeople() {
             lastName: 'Papa',
             age: 25,
             location: 'Florida',
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            special:    'something'
         }, {
             id: 2,
             firstName: 'Ward',

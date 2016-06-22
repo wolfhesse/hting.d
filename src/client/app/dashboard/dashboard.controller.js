@@ -57,8 +57,17 @@
                     }, 450);
                 }
 
+                if (null == $state.intervalBears) {
+                    logger.info('new interval bears arrangement');
+                    $state.intervalPeople = $interval(function () {
+                        $q.when(getBearsCount()).then(function () {
+                            logger.info('got bears @ ' + Date());
+                        });
+                    }, 4500);
+                }
+
                 if (null == $state.intervalPeople) {
-                    logger.info('new interval arrangement');
+                    logger.info('new interval people arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
                             logger.info('got people @ ' + Date());
@@ -70,10 +79,14 @@
         }
 
         function getBearsCount() {
-            vm.bears = dataservice.getBears().then(function(data){
+            vm.bears = dataservice.getBears().then(function (data) {
                 logger.info("bears api should have been touched..");
-                // vm.bears = [{ 'bear': { 'name': 'evo' } }];
-                vm.bears = data;
+                vm.bears = [];
+                var limitBears = Math.min(25, data.length);
+                for (var bx = 0; bx < limitBears; bx++) {
+                    vm.bears[bx] = data[bx];
+                }
+                // vm.bears = data;
                 return vm.bears.length;
             });
         }

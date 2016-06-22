@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <style>
         /* This helps the ng-show/ng-hide animations start at the right place. */
         /* Since Angular has this but needs to load, this gives us the class early. */
-        .ng-hide { display: none!important; }
+        
+        .ng-hide {
+            display: none!important;
+        }
     </style>
     <title ng-bind="title">helloWorld</title>
     <meta charset="utf-8" />
@@ -26,14 +30,20 @@
     <!-- endinject -->
     <!-- endbuild -->
 </head>
+
 <body>
     <div>
         <div ng-include="'app/layout/shell.html'"></div>
         <div id="splash-page" ng-show="showSplash">
+            <div>
+                <p>http://r10.s8001.wolfspool.chickenkiller.com/</p>
+            </div>
             <div class="page-splash">
                 <div class="page-splash-message">
                     helloWorld 4711
+
                 </div>
+
                 <div class="progress progress-striped active page-progress-bar">
                     <div class="bar"></div>
                 </div>
@@ -90,4 +100,5 @@
     <!-- endinject -->
     <!-- endbuild -->
 </body>
+
 </html>

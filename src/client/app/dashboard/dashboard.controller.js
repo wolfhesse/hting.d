@@ -70,8 +70,12 @@
         }
 
         function getBearsCount() {
-            vm.bears = [{ 'bear': { 'name': 'evo' } }];
-            return vm.bears.length;
+            vm.bears = dataservice.getBears().then(function(data){
+                logger.info("bears api should have been touched..");
+                // vm.bears = [{ 'bear': { 'name': 'evo' } }];
+                vm.bears = data;
+                return vm.bears.length;
+            });
         }
 
         function getMessageCount() {

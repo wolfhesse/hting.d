@@ -21,6 +21,7 @@
         vm.people = [];
         vm.title = 'Dashboard (r)';
         vm.bears = [];
+        vm.bearsLoaded = 0;
 
         activate();
 
@@ -30,7 +31,7 @@
             return $q.all(promises).then(function () {
                 logger.info('Activated Dashboard View');
                 //                logger.info('selbstgemachtes hier...');
-                logger.info("bears count is set to " + vm.bears.length);
+                logger.info("bears loaded " + vm.bearsLoaded);
 
                 if (null == $state.timeout) {
                     $state.timeout = $timeout(function () {
@@ -82,11 +83,12 @@
             vm.bears = dataservice.getBears().then(function (data) {
                 logger.info("bears api should have been touched..");
                 vm.bears = [];
-                var limitBears = Math.min(25, data.length);
+                var limitBears = Math.min(15, data.length);
                 for (var bx = 0; bx < limitBears; bx++) {
                     vm.bears[bx] = data[bx];
                 }
                 // vm.bears = data;
+                vm.bearsLoaded=data.length;
                 return vm.bears.length;
             });
         }

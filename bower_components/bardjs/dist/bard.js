@@ -1,7 +1,7 @@
 /**
- * bardjs - Mocha/chai spec helpers for testing angular v.1.x apps
+ * bardjs - Spec helpers for testing angular v.1.x apps with Mocha, Jasmine or QUnit
  * @authors John Papa,Ward Bell
- * @version v0.1.0
+ * @version v0.1.8
  * @link https://github.com/wardbell/bardjs
  * @license MIT
  */
@@ -41,6 +41,8 @@
     var debugging = false;
     var logCounter = 0;
     var okGlobals = [];
+
+    addBindPolyfill();
 
     beforeEach(function bardTopBeforeEach() {
         currentSpec = this;
@@ -140,7 +142,11 @@
         });
     }
     /**
-     * Add names of globals to list of OK globals for this spec
+     * Add names of globals to list of OK globals for this mocha spec
+     * NB: Call this method ONLY if you're using mocha!
+     * NB: Turn off browser-sync else mocha detects the browser-sync globals
+     * like ` ___browserSync___`
+     *
      * usage:
      *    addGlobals(this, 'foo');        // where `this` is the spec context
      *    addGlobals(this, 'foo', bar);
@@ -157,7 +163,7 @@
             }
         });
         // if a mocha test, add the ok globals to it
-        ctx && ctx.test.globals && ctx.test.globals(okGlobals);
+        ctx && ctx.test && ctx.test.globals && ctx.test.globals(okGlobals);
     }
 
     /**
@@ -248,8 +254,9 @@
      *
      * spares us the repetition of creating common service vars and injecting them
      *
-     * Option: the first argument may be the spec context (`this`)
-     *         and MUST be if checking for global leaks
+     * Option: the first argument may be the mocha spec context object (`this`)
+     *         It MUST be `this` if you what to check for mocha global leaks.
+     *         Do NOT supply `this` as the first arg if you're not running mocha specs.
      *
      * remaining inject arguments may take one of 3 forms :
      *
@@ -298,6 +305,9 @@
         var names = [];
         angular.forEach(args, function(name, ix) {
 
+            if (typeof name !== 'string') {
+                return; // WAT? Only strings allowed. Let's skip it and move on.
+            }
             var value = $injector.get(name);
             if (value == null) { return; }
 
@@ -361,6 +371,18 @@
          * all routing calls, including the default route
          * which runs on every test otherwise.
          * Make sure this goes before the inject in the spec.
+         *
+         * Optionally set up the fake behavior in your tests by monkey patching
+         * the faked $route router. For example:
+         *
+         * beforeEach(function() {
+         *      // get fake $route router service
+         *      bard.inject(this, '$route');
+         *
+         *      // plug in fake $route router values for this set of tests
+         *      $route.current = { ... fake values here ... };
+         *      $route.routes  = { ... fake values here ... };
+         *  })
          */
         $provide.provider('$route', function() {
             /* jshint validthis:true */
@@ -384,6 +406,18 @@
          * all routing calls, including the default state
          * which runs on every test otherwise.
          * Make sure this goes before the inject in the spec.
+         *
+         * Optionally set up the fake behavior in your tests by monkey patching
+         * the faked $state router. For example:
+         *
+         * beforeEach(function() {
+         *      // get fake $state router service
+         *      bard.inject(this, '$state');
+         *
+         *      // plug in fake $state router values for this set of tests
+         *      $state.current = { ... fake values here ... };
+         *      $state.state   = { ... fake values here ... };
+         *  })
          */
         $provide.provider('$state', function() {
             /* jshint validthis:true */
@@ -415,14 +449,15 @@
 
     /**
      * Get the spec context from parameters (if there)
-     * of from `this` (if it is the ctx as a result of `bind`)
+     * or from `this` (if it is the ctx as a result of `bind`)
      */
     function getCtxFromArgs(args) {
         var ctx;
         var first = args[0];
+        // heuristic to discover if the first arg is the mocha spec context (`this`)
         if (first && first.test) {
-            // the first arg was `this`: the context for this spec
-            // get it and strip it from args
+            // The first arg was the mocha spec context (`this`)
+            // Get it and strip it from args
             ctx = args.shift();
         } else if (this.test) {
             // alternative: caller can bind bardInject to the spec context
@@ -510,8 +545,15 @@
      */
     function mockService(service, config) {
 
-        var serviceKeys = Object.keys(service);
-        var configKeys  = Object.keys(config);
+        var serviceKeys = [];
+        for (var key in service) {
+            serviceKeys.push(key);
+        }
+
+        var configKeys = [];
+        for (var key in config) {
+            configKeys.push(key);
+        }
 
         angular.forEach(serviceKeys, function(key) {
             var value = configKeys.indexOf(key) > -1 ?
@@ -609,8 +651,10 @@
      * in the appropriate way for both success and failure
      *
      * Useage:
+     *    bard.inject('ngRouteTester', ...); // see bard-ngRouteTester.js
+     *    ...
      *    // When the DOM is ready, assert got the dashboard view
-     *    tester.until(elemIsReady, wrap(hasDashboardView, done));
+     *    ngRouteTester.until(elemIsReady, wrap(hasDashboardView, done));
      */
     function wrapWithDone(callback, done) {
         return function() {
@@ -622,4 +666,39 @@
             }
         };
     }
+
+    /*
+     *  Phantom.js does not support Function.prototype.bind (at least not before v.2.0
+     *  That's just crazy. Everybody supports bind.
+     *  Read about it here: https://groups.google.com/forum/#!msg/phantomjs/r0hPOmnCUpc/uxusqsl2LNoJ
+     *  This polyfill is copied directly from MDN
+     *  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
+     */
+    function addBindPolyfill() {
+        if (Function.prototype.bind) { return; } // already defined
+
+        /*jshint freeze: false */
+        Function.prototype.bind = function (oThis) {
+            if (typeof this !== 'function') {
+                // closest thing possible to the ECMAScript 5
+                // internal IsCallable function
+                throw new TypeError(
+                    'Function.prototype.bind - what is trying to be bound is not callable');
+            }
+
+            var aArgs = Array.prototype.slice.call(arguments, 1),
+                fToBind = this,
+                FuncNoOp = function () {},
+                fBound = function () {
+                    return fToBind.apply(this instanceof FuncNoOp && oThis ? this : oThis,
+                        aArgs.concat(Array.prototype.slice.call(arguments)));
+                };
+
+            FuncNoOp.prototype = this.prototype;
+            fBound.prototype = new FuncNoOp();
+
+            return fBound;
+        };
+    }
+
 })();

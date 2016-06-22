@@ -10,7 +10,8 @@
     function dataservice($http, $q, logger) {
         var service = {
             getPeople: getPeople,
-            getMessageCount: getMessageCount
+            getMessageCount: getMessageCount,
+            getBears: getBears
         };
 
         return service;
@@ -28,6 +29,16 @@
 
             function fail(error) {
                 var msg = 'query for people failed. ' + error.data.description;
+                logger.error(msg);
+                return $q.reject(msg);
+            }
+        }
+
+        function getBears() {
+            return $http.get("//bearsapi.wolfspool.chickenkiller.com/api/bears").then(success).catch(fail);
+            function success(response) { return response.data; }
+            function fail(error) {
+                var msg = 'query for bears failed. ' + error.data.description;
                 logger.error(msg);
                 return $q.reject(msg);
             }

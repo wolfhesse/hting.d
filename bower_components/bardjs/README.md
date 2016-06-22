@@ -7,27 +7,47 @@ What kind of help? Help with **routine tasks** that would otherwise clutter your
 
 The poster child in this respect is the [`inject` method](#inject).  It can easily remove 10 or more lines of boilerplate so you spend less time with setup and more time with your tests. Check it out.
 
+The [bardjs repo](https://github.com/wardbell/bardjs/snippets/ "bard code snippets") also contains code snippets to make writing tests a little easier. See [separate instructions](#snippets) for those below.
+
 # Installation
 
-You could clone [bardjs from github](https://github.com/wardbell/bardjs "bard on github"). Most folks will install it with [bower](http://bower.io/search/?q=bardjs "bard on bower") or [npm](https://www.npmjs.com/package/bardjs):
+Most folks bardjs install it with [bower](http://bower.io/search/?q=bardjs "bard on bower") or [npm](https://www.npmjs.com/package/bardjs):
 
 `bower install bardjs`
 
 `npm install bardjs`
 
+You can also clone [bardjs from github](https://github.com/wardbell/bardjs "bard on github") and extract *bard.js*itself.
+
+>bard depends on [sinon.js](http://sinonjs.org/) so make sure you have that library available; bower and npm bring that down for you.
+
 Almost all of bard is in the *bard.js* file within the *dist* folder.
 
 If you're running tests in a browser, add the appropriate script tag *below* the script for your test framework library:
 
-    <!-- when loaded with bower -->
+    <!-- when installed with bower -->
     <script src="/bower_components/bardjs/dist/bard.js"></script>
 
-    <!-- when loaded with npm -->
+    <!-- when installed with npm -->
     <script src="/npm_modules/bardjs/dist/bard.js"></script>
+
+You'll need to add *sinon.js* as well
+
+    <!-- when installed with bower -->
+    <script src="/bower_components/sinon/index.js"></script>
+
+    <!-- when installed with npm -->
+    <script src="/npm_modules/sinon/lib/sinon.js"></script>
+
+## karma considerations
 
 If you're running with [karma](http://karma-runner.github.io/0.12/index.html "karma"), reference *bard.js* in *karma.config.js* among the `files` to be loaded. See the [karma "Config" documentation](http://karma-runner.github.io/0.12/config/configuration-file.html "karma config") for details.
 
->In the *dist* folder you'll also find optional plug-in extensions such as the *bard-ngRouteTester.js* which adds the `bard.ngRouteTester` helper to manage tests of the [original Angular router](https://docs.angularjs.org/api/ngRoute/service/$route "Angular $route"). 
+Be sure to include *sinon* among the karma frameworks as in this example extract:
+
+    frameworks: ['mocha', 'chai', 'sinon', 'chai-sinon'],
+
+In the *dist* folder you'll also find optional plug-in extensions such as the *bard-ngRouteTester.js* which adds the `bard.ngRouteTester` helper to manage tests of the [original Angular router](https://docs.angularjs.org/api/ngRoute/service/$route "Angular $route"). 
 
 # bard methods
 
@@ -349,3 +369,60 @@ And here are two mocha/chai tests that could follow that setup:
         // verify that `getNews` is actually a spy
         expect(dataservice.getNews).to.have.been.calledOnce;
     });
+
+<a name="snippets"></a>
+# Brackets code snippets
+
+Code snippets make test authoring just a little easier. Here
+are instructions for loading our snippets into the [Brackets editor](http://brackets.io/ "Brackets editor").
+
+- Open the Brackets Extension manager ( File > Extension manager )
+- Install ['Brackets Snippets (by edc)'](https://github.com/chuyik/brackets-snippets)
+- Click the light bulb in Brackets' right gutter
+- Click `Settings` and then `Import`
+- Click `Choose File`
+- Locate and download [*~/snippets/brackets-testing-snippets.yaml*](https://github.com/wardbell/bardjs/blob/master/snippets/brackets-testing-snippets.yaml "bard brackets snippets on github") from github.
+- Choose either to `skip` or to `override`
+- Click `Start Import`
+
+Now try them in a JavaScript test file
+
+* mocha/jasmine
+
+    * `bdescribe` - mocha/jasmine `describe`
+    * `bit`  - `it` test (synchronous)
+    * `bait` - async `it` test
+    * `bbeforeEach` - mocha/jasmine `beforeEach`
+    * `bafterEach` - mocha/jasmine `afterEach`
+    * `bdone` - tail of a mocha test promise chain: `.then(done, done);`
+
+
+* chai expectations
+
+    * `bexpect` - expect(...).to
+    * `bcalled` - expect(...).to.have.been.called
+    * `bequal` - expect(...).to.equal(...)
+    * `blen` - expect(...).to.have.length(...)
+    * `bmatch` - expect(...).to.match(/.../i)
+    * `bprop` - expect(...).to.have.been.property(..., ...)
+    * `bthrow` - expect function to throw
+
+
+* bard.js
+
+    * `binject` - bard.inject
+    * `bcinject` - bard.inject for a controller
+    * `bmodule` - bard.appModule
+    * `basyncmod` - bard.asyncModule
+    * `bverify` - bard.verifyNoOutstandingHttpRequests()
+
+
+* angular.js
+
+    * `bapply` - $rootScope.$apply();
+    * `bwhen`  - $httpBackend.when('get', {url}).respond({status}, {data});
+    * `bflush` - $httpBackend.flush();
+
+* miscellaneous
+
+    * `bfn`    - generates a function stub

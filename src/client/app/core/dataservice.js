@@ -16,7 +16,9 @@
 
         return service;
 
-        function getMessageCount() { return $q.when(75); }
+        function getMessageCount() {
+            return $q.when(75);
+        }
 
         function getPeople() {
             return $http.get('/api/people')
@@ -35,8 +37,12 @@
         }
 
         function getBears() {
-            return $http.get("//bearsapi.wolfspool.chickenkiller.com/api/bears").then(success).catch(fail);
-            function success(response) { return response.data; }
+            var bearsApi = '//bearsapi.wolfspool.chickenkiller.com/api/bears';
+            return $http.get(bearsApi).then(success).catch(fail);
+            function success(response) {
+                return response.data;
+            }
+
             function fail(error) {
                 var msg = 'query for bears failed. ' + error.data.description;
                 logger.error(msg);

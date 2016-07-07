@@ -1,7 +1,7 @@
 {
-  "name": "helloWorld",
+  "name": "hello-world",
   "description": "helloWorld Project Generated from HotTowel Angular",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "init": "npm install",
     "install": "bower install",
@@ -70,7 +70,7 @@
     "mocha": "^1.20.1",
     "mocha-clean": "^0.4.0",
     "node-notifier": "^4.0.3",
-    "phantomjs": "1.9.9",
+    "phantomjs": "2.1.1",
     "plato": "^1.2.0",
     "q": "^1.0.1",
     "sinon": "^1.12.2",

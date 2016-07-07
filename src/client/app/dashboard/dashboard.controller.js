@@ -2,9 +2,10 @@
 (function () {
     'use strict';
 
-    const INTERVAL_BEARS = 5750;
-    const INTERVAL_PEOPLE = 6500;
-    const LIMIT_BEARS = 15;
+    // todo: migrate vars to const ES6
+    var INTERVAL_BEARS = 5750;
+    var INTERVAL_PEOPLE = 6500;
+    var LIMIT_BEARS = 15;
 
     angular
         .module('app.dashboard')
@@ -27,7 +28,7 @@
         vm.title = 'Dashboard (r)';
         vm.bears = [];
         vm.bearsLoaded = 0;
-        vm.bearStatus = "initializing...";
+        vm.bearStatus = 'initializing...';
 
         activate();
 
@@ -55,12 +56,12 @@
                 if (null == $rootScope.intervalMessageCount) {
                     $rootScope.intervalMessageCount = $interval(function () {
                         //                    logger.info('interval!');
-                        var msg_saved = vm.busyMessage;
-                        vm.busyMessage = "busy...";
+                        var msgSaved = vm.busyMessage;
+                        vm.busyMessage = 'busy...';
                         vm.messageCount++;
                         vm.news.date = Date();
 
-                        vm.busyMessage = msg_saved;
+                        vm.busyMessage = msgSaved;
                     }, 450);
                 }
 
@@ -87,7 +88,7 @@
 
         function getBearsCount() {
             return dataservice.getBears().then(function (data) {
-                logger.log("bears api should have been touched..");
+                logger.log('bears api should have been touched..');
                 var bearsResponseBuffer = [];
                 // vm.bears = [];
                 var limitBears = Math.min(LIMIT_BEARS, data.length);
@@ -96,7 +97,7 @@
                     bearsResponseBuffer[bx]['loadTs'] = Date();
                 }
                 vm.bearsLoaded = data.length;
-                vm.bearStatus = "loaded " + vm.bearsLoaded + " bears @ " + vm.news.date;
+                vm.bearStatus = 'loaded ' + vm.bearsLoaded + ' bears @ ' + vm.news.date;
                 vm.bears = bearsResponseBuffer;
                 return vm.bears.length;
             });

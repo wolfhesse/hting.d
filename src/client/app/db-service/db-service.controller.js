@@ -10,14 +10,14 @@
 
     angular
         .module('app.dashboard')
-        .controller('DashboardController', DashboardController);
+        .controller('DbServiceController', DbServiceController);
 
-    DashboardController.$inject = ['$q', '$interval', '$rootScope', '$state',
+    DbServiceController.$inject = ['$q', '$interval', '$rootScope', '$state',
         '$timeout', 'dataservice', 'logger'
     ];
 
     /* @ngInject */
-    function DashboardController($q, $interval, $rootScope, $state, $timeout, dataservice, logger) {
+    function DbServiceController($q, $interval, $rootScope, $state, $timeout, dataservice, logger) {
         var vm = this;
         vm.news = {
             title: 'helloWorld',

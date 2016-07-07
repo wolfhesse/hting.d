@@ -7,6 +7,7 @@
         'app.widgets',
         'app.admin',
         'app.dashboard',
+        'app.db-service',
         'app.layout'
     ]);
 

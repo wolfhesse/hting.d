@@ -5,14 +5,15 @@ module.exports = {
 
 function getPeople() {
     console.log('getPeople');
-    return [{
+    return [
+        {
             id: 1,
             firstName: 'John',
             lastName: 'Papa',
             age: 25,
             location: 'Florida',
             updatedAt: new Date(),
-            special:    'something'
+            special: 'something'
         }, {
             id: 2,
             firstName: 'Ward',
@@ -21,8 +22,10 @@ function getPeople() {
             location: 'California',
             updatedAt: new Date()
         },
-        //        {id: 3, firstName: 'Colleen', lastName: 'Jones',
-        // age: 21, location: 'New York', updatedAt: new Date() },
+        {
+            id: 3, firstName: 'Colleen', lastName: 'Jones',
+            age: 21, location: 'New York', updatedAt: new Date()
+        },
         {
             id: 4,
             firstName: 'Madelyn',
@@ -67,11 +70,146 @@ function getPeople() {
             updatedAt: new Date()
         }, {
             id: 10,
-            firstName: 'Roger',
-            lastName: 'Andel',
-            relCompanyShort:  'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
             intercom: 'https://a-se.slack.com',
-            age: 48,
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
+            location: 'Austria',
+            updatedAt: new Date()
+        }, {
+            id: 10,
+            firstName: 'Wolf',
+            lastName: 'Hesse',
+            relCompanyShort: 'als vertreter ANDEL - SYSTEMS ENGINEERING',
+            intercom: 'https://a-se.slack.com',
+            age: 50,
             location: 'Austria',
             updatedAt: new Date()
         }

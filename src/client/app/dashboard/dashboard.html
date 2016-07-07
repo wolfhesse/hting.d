@@ -70,7 +70,73 @@
             </div>
 
             <div class='row'>
-                <div class='col-md-6'>
+                <div class='col-md-2'>
+                    <div class='widget wlightblue'>
+                        <div ht-widget-header title="PlcHld" allow-collapse="true"></div>
+                        <div class='widget-content text'>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>widget2</p>
+                            <p>min-height helper...</p>
+                        </div>
+                        <div class='widget-foot'>
+                            <div class='clearfix'>HlpEnd</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="widget wblue">
+                        <div ht-widget-header title="Bears" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
+                                        <th>Location</th>
+                                        <th>Created</th>
+                                        <th>LoadTs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="p in vm.bears">
+                                        <td>{{p._id}}</td>
+                                        <td>{{p.name}}</td>
+                                        <td>n/a</td>
+                                        <td>n/a</td>
+                                        <td>{{p.created_at}}</td>
+                                        <td>{{p.loadTs}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix">eob, bearStatus: {{vm.bearStatus}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
                     <div class="widget wlightblue">
                         <div ht-widget-header title="sub-widget &copy; ase, 2015, vie - AT // @ {{vm.news.date}}" allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
@@ -109,36 +175,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="widget wblue">
-                        <div ht-widget-header title="Bears" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <table class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Last Name</th>
-                                        <th>Age</th>
-                                        <th>Location</th>
-                                        <th>Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="p in vm.bears">
-                                        <td>{{p._id}}</td>
-                                        <td>{{p.name}}</td>
-                                        <td>n/a</td>
-                                        <td>n/a</td>
-                                        <td>{{p.created_at}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix">eob, bearStatus: {{vm.bearStatus}}</div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <div class='row'>

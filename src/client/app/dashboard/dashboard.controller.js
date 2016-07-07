@@ -48,7 +48,7 @@
                         //                    logger.info(JSON.stringify($rootScope));
                         //                        logger.info($rootScope.intervalMessageCount.count);
                         //                        logger.info($state.timeout.count);
-                    }, 1500);
+                    }, 2500);
                     logger.info('new timeout arrangement');
                 }
 

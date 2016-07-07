@@ -2,6 +2,10 @@
 (function () {
     'use strict';
 
+    const INTERVAL_BEARS = 5750;
+    const INTERVAL_PEOPLE = 6500;
+    const LIMIT_BEARS = 15;
+
     angular
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
@@ -9,7 +13,7 @@
     DashboardController.$inject = ['$q', '$interval', '$rootScope', '$state',
         '$timeout', 'dataservice', 'logger'
     ];
-    
+
     /* @ngInject */
     function DashboardController($q, $interval, $rootScope, $state, $timeout, dataservice, logger) {
         var vm = this;
@@ -33,7 +37,7 @@
             return $q.all(promises).then(function () {
                 logger.info('Activated Dashboard View');
                 //                logger.info('selbstgemachtes hier...');
-                logger.info("bears loaded " + vm.bearsLoaded);
+                // logger.info("bears loaded " + vm.bearsLoaded);
 
                 if (null == $state.timeout) {
                     $state.timeout = $timeout(function () {
@@ -64,34 +68,36 @@
                     logger.info('new interval bears arrangement');
                     $state.intervalBears = $interval(function () {
                         $q.when(getBearsCount()).then(function () {
-                            logger.info('got bears: ' + vm.bearsLoaded);
+                            logger.success('got bears: ' + vm.bearsLoaded);
                         });
-                    }, 6500);
+                    }, INTERVAL_BEARS);
                 }
 
                 if (null == $state.intervalPeople) {
                     logger.info('new interval people arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
-                            logger.info('got people: ' + vm.people.length);
+                            logger.success('got people: ' + vm.people.length);
                         });
-                    }, 8500);
+                    }, INTERVAL_PEOPLE);
                 }
             });
 
         }
 
         function getBearsCount() {
-            vm.bears = dataservice.getBears().then(function (data) {
+            return dataservice.getBears().then(function (data) {
                 logger.log("bears api should have been touched..");
-                vm.bears = [];
-                var limitBears = Math.min(15, data.length);
+                var bearsResponseBuffer = [];
+                // vm.bears = [];
+                var limitBears = Math.min(LIMIT_BEARS, data.length);
                 for (var bx = 0; bx < limitBears; bx++) {
-                    vm.bears[bx] = data[bx];
+                    bearsResponseBuffer.push(data[bx]);
+                    bearsResponseBuffer[bx]['loadTs'] = Date();
                 }
-                // vm.bears = data;
                 vm.bearsLoaded = data.length;
                 vm.bearStatus = "loaded " + vm.bearsLoaded + " bears @ " + vm.news.date;
+                vm.bears = bearsResponseBuffer;
                 return vm.bears.length;
             });
         }

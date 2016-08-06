@@ -3,13 +3,13 @@
     'use strict';
 
     // todo: migrate vars to const ES6
-    var INTERVAL_MSG = 6000;
+    var INTERVAL_MSG = 600;
     var INTERVAL_BEARS = 15750;
     var INTERVAL_PEOPLE = 16500;
     var LIMIT_BEARS = 15;
 
     angular
-        .module('app.dashboard')
+        .module('app.db-service')
         .controller('DbServiceController', DbServiceController);
 
     DbServiceController.$inject = ['$q', '$interval', '$rootScope', '$state',
@@ -33,11 +33,15 @@
 
         activate();
 
+        function deactivate(){
+            logger.info('Deactivated DbService View');
+        }
+
         function activate() {
 
             var promises = [getMessageCount(), getPeople(), getBearsCount()];
             return $q.all(promises).then(function () {
-                logger.info('Activated Dashboard View');
+                logger.info('Activated DbService View');
                 //                logger.info('selbstgemachtes hier...');
                 // logger.info("bears loaded " + vm.bearsLoaded);
 
@@ -54,8 +58,8 @@
                     logger.info('new timeout arrangement');
                 }
 
-                if (null == $rootScope.intervalMessageCount) {
-                    $rootScope.intervalMessageCount = $interval(function () {
+                if (null == $state.intervalMessageCount) {
+                    $state.intervalMessageCount = $interval(function () {
                         //                    logger.info('interval!');
                         var msgSaved = vm.busyMessage;
                         vm.busyMessage = 'busy...';

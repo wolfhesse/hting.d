@@ -41,7 +41,7 @@
                 //                logger.info('selbstgemachtes hier...');
                 // logger.info("bears loaded " + vm.bearsLoaded);
 
-                if (null === $state.timeout) {
+                if (null == $state.timeout) {
                     $state.timeout = $timeout(function () {
                         vm.news.description = 'ts:' + new Date();
                         vm.news.date = Date();
@@ -52,9 +52,12 @@
                         //                        logger.info($state.timeout.count);
                     }, 2500);
                     logger.info('new timeout arrangement');
+                } else {
+                    $state.timeout = null;
+                    logger.info('cleared $state.timeout');
                 }
 
-                if (null === $rootScope.intervalMessageCount) {
+                if (null == $rootScope.intervalMessageCount) {
                     $rootScope.intervalMessageCount = $interval(function () {
                         //                    logger.info('interval!');
                         var msgSaved = vm.busyMessage;
@@ -64,9 +67,12 @@
 
                         vm.busyMessage = msgSaved;
                     }, 450);
+                } else {
+                    $rootScope.intervalMessageCount = null;
+                    logger.info('cleared $rootScope.intervalMessageCount');
                 }
 
-                if (null === $state.intervalBears) {
+                if (null == $state.intervalBears) {
                     logger.info('new interval bears arrangement');
                     $state.intervalBears = $interval(function () {
                         $q.when(getBearsCount()).then(function () {
@@ -75,7 +81,7 @@
                     }, INTERVAL_BEARS);
                 }
 
-                if (null === $state.intervalPeople) {
+                if (null == $state.intervalPeople) {
                     logger.info('new interval people arrangement');
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {

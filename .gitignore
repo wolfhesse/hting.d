@@ -79,3 +79,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/nbproject/private/
+/bower_components/

@@ -3,7 +3,7 @@
     'use strict';
 
     const INTERVAL_BEARS = 5750;
-    const INTERVAL_PEOPLE = 6500;
+    const INTERVAL_PEOPLE = 16500;
     const LIMIT_BEARS = 15;
 
     angular

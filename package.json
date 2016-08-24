@@ -2,7 +2,7 @@
   "name": "ase-hting-angular",
   "description": "helloWorld Project Generated from HotTowel Angular",
   "version": "0.0.4",
-  "license": "copyleft - original hting by papa",
+  "license": "copyleft - original hting by john papa",
   "repository": "https://github.com/wolfhesse/hting.d.git",
   "scripts": {
     "init": "npm install",

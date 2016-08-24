@@ -35,7 +35,8 @@
         }
 
         function getBears() {
-            return $http.get("//bearsapi.wolfspool.chickenkiller.com/api/bears").then(success).catch(fail);
+            return $http.get('//bearsapi.wolfspool.chickenkiller.com/api/bears')
+                    .then(success).catch(fail);
             function success(response) { return response.data; }
             function fail(error) {
                 var msg = 'query for bears failed. ' + error.data.description;

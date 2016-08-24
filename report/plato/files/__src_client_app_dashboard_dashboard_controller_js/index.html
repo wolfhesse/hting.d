@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">78.06</p>
+      <p class="stat">73.37</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">73</p>
+      <p class="stat">118</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">15.72</p>
+      <p class="stat">21.73</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.47</p>
+      <p class="stat">0.99</p>
     </div>
   </div>
 </div>
@@ -90,8 +90,14 @@
 <div class="container">
   <div class="row">
     <textarea id="file-source" class="col-md-12">/// &lt;reference path=&quot;../../../../typings/angularjs/angular.d.ts&quot;/&gt;
+/* jshint esnext: true */
+
 (function () {
     &#039;use strict&#039;;
+
+    var INTERVAL_BEARS = 5750;
+    var INTERVAL_PEOPLE = 16500;
+    var LIMIT_BEARS = 15;
 
     angular
         .module(&#039;app.dashboard&#039;)
@@ -100,52 +106,93 @@
     DashboardController.$inject = [&#039;$q&#039;, &#039;$interval&#039;, &#039;$rootScope&#039;, &#039;$state&#039;,
         &#039;$timeout&#039;, &#039;dataservice&#039;, &#039;logger&#039;
     ];
+
     /* @ngInject */
     function DashboardController($q, $interval, $rootScope, $state, $timeout, dataservice, logger) {
         var vm = this;
         vm.news = {
             title: &#039;helloWorld&#039;,
-            description: &#039;Hot Towel Angular is a SPA template for Angular developers.&#039;
+            description: &#039;Hot Towel Angular is a SPA template for Angular developers.&#039;,
+            date: Date()
         };
         vm.messageCount = 0;
         vm.people = [];
         vm.title = &#039;Dashboard (r)&#039;;
+        vm.bears = [];
+        vm.bearsLoaded = 0;
+        vm.bearStatus = &#039;initializing...&#039;;
 
         activate();
 
         function activate() {
-            var promises = [getMessageCount(), getPeople()];
+
+            var promises = [getMessageCount(), getPeople(), getBearsCount()];
             return $q.all(promises).then(function () {
                 logger.info(&#039;Activated Dashboard View&#039;);
                 //                logger.info(&#039;selbstgemachtes hier...&#039;);
+                // logger.info(&quot;bears loaded &quot; + vm.bearsLoaded);
 
-                if (null == $state.timeout) {
+                if (null === $state.timeout) {
                     $state.timeout = $timeout(function () {
                         vm.news.description = &#039;ts:&#039; + new Date();
+                        vm.news.date = Date();
                         logger.info(&#039;timeout! : &#039; + vm.news.description);
                         //                    logger.info(JSON.stringify($state));
                         //                    logger.info(JSON.stringify($rootScope));
                         //                        logger.info($rootScope.intervalMessageCount.count);
                         //                        logger.info($state.timeout.count);
-                    }, 1500);
+                    }, 2500);
                     logger.info(&#039;new timeout arrangement&#039;);
                 }
 
-                $rootScope.intervalMessageCount = $interval(function () {
-                    //                    logger.info(&#039;interval!&#039;);
-                    vm.messageCount++;
-                }, 150);
+                if (null === $rootScope.intervalMessageCount) {
+                    $rootScope.intervalMessageCount = $interval(function () {
+                        //                    logger.info(&#039;interval!&#039;);
+                        var msgSaved = vm.busyMessage;
+                        vm.busyMessage = &#039;busy...&#039;;
+                        vm.messageCount++;
+                        vm.news.date = Date();
 
-                if (null == $state.intervalPeople) {
-                    logger.info(&#039;new interval arrangement&#039;);
+                        vm.busyMessage = msgSaved;
+                    }, 450);
+                }
+
+                if (null === $state.intervalBears) {
+                    logger.info(&#039;new interval bears arrangement&#039;);
+                    $state.intervalBears = $interval(function () {
+                        $q.when(getBearsCount()).then(function () {
+                            logger.success(&#039;got bears: &#039; + vm.bearsLoaded);
+                        });
+                    }, INTERVAL_BEARS);
+                }
+
+                if (null === $state.intervalPeople) {
+                    logger.info(&#039;new interval people arrangement&#039;);
                     $state.intervalPeople = $interval(function () {
                         $q.when(getPeople()).then(function () {
-                            logger.info(&#039;got people.&#039;);
+                            logger.success(&#039;got people: &#039; + vm.people.length);
                         });
-                    }, 12500);
+                    }, INTERVAL_PEOPLE);
                 }
             });
 
+        }
+
+        function getBearsCount() {
+            return dataservice.getBears().then(function (data) {
+                logger.log(&#039;bears api should have been touched..&#039;);
+                var bearsResponseBuffer = [];
+                // vm.bears = [];
+                var limitBears = Math.min(LIMIT_BEARS, data.length);
+                for (var bx = 0; bx &lt; limitBears; bx++) {
+                    bearsResponseBuffer.push(data[bx]);
+                    bearsResponseBuffer[bx][&#039;loadTs&#039;] = Date();
+                }
+                vm.bearsLoaded = data.length;
+                vm.bearStatus = &#039;loaded &#039; + vm.bearsLoaded + &#039; bears @ &#039; + vm.news.date;
+                vm.bears = bearsResponseBuffer;
+                return vm.bears.length;
+            });
         }
 
         function getMessageCount() {
